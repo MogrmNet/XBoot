@@ -1,0 +1,15 @@
+# secrets & private material — never commit
+.env
+.env.*
+!.env.example
+.dev.vars
+worker/.dev.vars
+*.key
+*.pem
+tech.pdf
+*.pdf
+# build / tooling
+node_modules/
+dist/
+.wrangler/
+.DS_Store

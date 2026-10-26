@@ -1,0 +1,9 @@
+name = "garhi-api"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Non-secret settings. Secrets are NOT stored here — see README (wrangler secret put ...).
+[vars]
+ALLOWED_ORIGIN = "https://mogrmnet.github.io"
+KNOWLEDGE_URL = "https://mogrmnet.github.io/XBoot/knowledge.json"
+ANTHROPIC_MODEL = "claude-sonnet-5-5"

@@ -1,0 +1,46 @@
+name: Deploy GARHI to GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Unit tests (no dependencies to install)
+        run: npm test
+      - name: Secret scan
+        run: npm run scan:secrets
+      - name: Build public site
+        env:
+          # Repository VARIABLE (Settings → Secrets and variables → Actions → Variables). Public URL, not a secret.
+          GARHI_API_URL: ${{ vars.GARHI_API_URL }}
+        run: node scripts/build-dist.mjs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

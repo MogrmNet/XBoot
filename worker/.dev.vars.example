@@ -1,0 +1,4 @@
+# Copy to worker/.dev.vars for LOCAL development only (this file name is git-ignored). Placeholders only.
+ANTHROPIC_API_KEY=your-provider-api-key-here
+APP_TOKEN=choose-a-long-random-access-code
+ALLOWED_ORIGIN=http://localhost:8000
