@@ -2,7 +2,6 @@ const $ = id => document.getElementById(id);
 const chat = $('chat');
 const form = $('chatForm');
 const input = $('message');
-
 let docs = [];
 
 function norm(v) {
@@ -11,72 +10,121 @@ function norm(v) {
     .replace(/[^\p{L}\p{N}\s]/gu,' ').trim();
 }
 
-function textOf(d) {
-  return [d.title,d.category,d.terms,d.summary,d.body,d.content,
-    d.answer,d.description,d.steps,d.keywords,d.text]
-    .flat(Infinity).filter(Boolean).join(' ');
+function values(v) {
+  return Array.isArray(v) ? v.flat(Infinity) : [v];
+}
+
+function fields(d) {
+  return ['title','category','terms','summary','body','content',
+    'answer','description','steps','keywords','text']
+    .flatMap(k => values(d[k]))
+    .filter(v => typeof v === 'string' && v.trim());
 }
 
 function show(text, who='assistant') {
   $('welcome')?.remove();
-  const el=document.createElement('div');
-  el.className='message '+who;
-  el.style.cssText='white-space:pre-wrap;padding:14px;margin:10px 0;border-radius:12px;background:'+(who==='user'?'#27334a':'#171a27');
-  el.textContent=text;
+  const el = document.createElement('div');
+  el.className = 'message ' + who;
+  el.style.cssText = 'white-space:pre-wrap;padding:14px;margin:10px 0;border-radius:14px;background:' +
+    (who === 'user' ? '#27334a' : '#171a27');
+  el.textContent = text;
   chat.appendChild(el);
-  el.scrollIntoView({block:'end'});
+  el.scrollIntoView({behavior:'smooth',block:'end'});
 }
 
-function answer(q) {
-  const words=[...new Set(norm(q).split(/\s+/).filter(w=>w.length>1))];
-  if(!words.length) return 'اكتب سؤالك الأول.';
-  const found=docs.map(d=>{
-    const title=norm(d.title), category=norm(d.category), body=norm(textOf(d));
-    let score=0;
-    for(const w of words) {
-      if(title.includes(w)) score+=6;
-      if(category.includes(w)) score+=3;
-      if(body.includes(w)) score++;
+function findAnswer(q) {
+  const words = [...new Set(norm(q).split(/\s+/).filter(w => w.length > 1))];
+  if (!words.length) return 'اكتب سؤالك بشكل مختصر.';
+
+  const ranked = docs.map(d => {
+    const title = norm(d.title);
+    const category = norm(d.category);
+    const all = norm(fields(d).join(' '));
+    let score = 0;
+
+    for (const w of words) {
+      if (title.includes(w)) score += 8;
+      if (category.includes(w)) score += 4;
+      if (all.includes(w)) score += 1;
     }
-    return {d,score};
-  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,3);
+    if (title && words.every(w => title.includes(w))) score += 10;
+    return {d, score};
+  }).filter(x => x.score > 0).sort((a,b) => b.score-a.score);
 
-  if(!found.length) return 'لم أجد إجابة مطابقة في قاعدة المعرفة المحلية. جرّب مصطلحًا فنيًا مثل BLQ أو Data Down.';
-  return found.map(({d},i)=>{
-    const detail=[d.summary,d.answer,d.body,d.content,d.description,d.steps,d.text]
-      .flat(Infinity).filter(Boolean);
-    return `${i+1}. ${d.title||d.category||'مرجع'}\n${detail.join('\n')||d.terms||'لا توجد تفاصيل إضافية في السجل.'}`;
-  }).join('\n\n──────────\n\n');
+  if (!ranked.length)
+    return 'مش لاقي المعلومة دي في المراجع المحلية. جرّب اسم الخدمة أو العطل بالإنجليزي.';
+
+  const best = ranked[0].d;
+  const detailFields = ['summary','answer','steps','body','content','description','text'];
+  const parts = detailFields.flatMap(k => values(best[k]))
+    .filter(v => typeof v === 'string' && v.trim());
+
+  if (!parts.length)
+    return `${best.title || best.category || 'المعلومة'}\nالمصدر المحلي لا يحتوي على تفاصيل كافية للإجابة.`;
+
+  const candidates = parts.flatMap(p =>
+    p.split(/\n+|(?<=[.!؟])\s+/).map(s => s.trim()).filter(Boolean)
+  );
+
+  const scored = candidates.map(line => {
+    const n = norm(line);
+    let score = 0;
+    for (const w of words) if (n.includes(w)) score++;
+    return {line, score};
+  }).filter(x => x.score > 0).sort((a,b) => b.score-a.score);
+
+  let result = scored.length
+    ? scored.slice(0,2).map(x => x.line).join('\n')
+    : parts[0];
+
+  if (result.length > 650)
+    result = result.slice(0,647).trimEnd() + '...';
+
+  return result;
 }
 
-if(form && input && chat) {
-  form.addEventListener('submit',e=>{
+if (!chat || !form || !input) {
+  console.error('GARHI: missing chat elements');
+} else {
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const q=input.value.trim();
-    if(!q) return;
-    if(!docs.length) { show('قاعدة المعرفة لم تُحمّل بعد. حدّث الصفحة وحاول مجددًا.'); return; }
+    const q = input.value.trim();
+    if (!q) return;
     show(q,'user');
-    input.value='';
-    show(answer(q));
+    input.value = '';
+    show(docs.length
+      ? findAnswer(q)
+      : 'قاعدة المعرفة لسه بتتحمّل. حدّث الصفحة وجرب تاني.');
   });
-  document.querySelectorAll('[data-question]').forEach(b=>{
-    b.addEventListener('click',()=>{
-      input.value=b.dataset.question||b.textContent.trim();
+
+  document.querySelectorAll('[data-question]').forEach(b => {
+    b.addEventListener('click', () => {
+      input.value = b.dataset.question || b.textContent.trim();
       form.requestSubmit();
     });
   });
-} else {
-  console.error('GARHI: chat elements missing in index.html');
 }
 
+$('clearChat')?.addEventListener('click', () => {
+  chat.replaceChildren();
+  const welcome = document.createElement('section');
+  welcome.id = 'welcome';
+  welcome.className = 'welcome';
+  welcome.innerHTML = '<div class="hero-icon">G</div><h2>أهلًا بيك في GARHI</h2><p>اسأل سؤالك الفني.</p>';
+  chat.appendChild(welcome);
+});
+
 fetch('./knowledge.json')
-  .then(r=>{if(!r.ok) throw Error('HTTP '+r.status);return r.json();})
-  .then(data=>{
-    if(!Array.isArray(data)) throw Error('Invalid JSON structure');
-    docs=data;
-    console.log('GARHI local knowledge loaded:',docs.length);
+  .then(r => {
+    if (!r.ok) throw Error('HTTP ' + r.status);
+    return r.json();
   })
-  .catch(e=>{
-    console.error('Knowledge load failed:',e);
-    if(chat) show('فشل تحميل قاعدة المعرفة. تأكد من وجود knowledge.json في جذر الموقع.');
+  .then(data => {
+    if (!Array.isArray(data)) throw Error('Invalid knowledge format');
+    docs = data;
+    console.log('GARHI local knowledge:', docs.length);
+  })
+  .catch(err => {
+    console.error(err);
+    if (chat) show('في مشكلة في تحميل قاعدة المعرفة المحلية.');
   });
