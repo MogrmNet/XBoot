@@ -1,0 +1,8 @@
+name = "garhi-ai-api"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+OPENAI_MODEL = "gpt-4o-mini"
+# Set ALLOWED_ORIGIN as a secret/variable to your exact GitHub Pages origin, e.g. https://mogrmnet.github.io
+# Never put OPENAI_API_KEY in this file.
