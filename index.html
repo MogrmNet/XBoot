@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d14"><meta name="description" content="GARHI — مساعد ذكي لمراجع WE Technical Call Center مع إجابات موثقة من قاعدة المعرفة.">
+<title>GARHI AI — WE Technical Copilot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"><script src="config.js"></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div><div class="watermark" aria-hidden="true">GARHI</div>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-mark">G<span>✦</span></div><div><div class="brand-name">GARHI <span>AI</span></div><div class="brand-sub">TECHNICAL COPILOT</div></div><button class="icon-btn close-sidebar" id="closeSidebar" aria-label="إغلاق القائمة">×</button></div>
+  <button class="new-chat" id="newChat"><span>＋</span> محادثة جديدة</button>
+  <div class="nav-label">مساحة العمل</div>
+  <button class="nav-item active" data-view="chat"><span class="nav-symbol">✧</span> المحادثة</button>
+  <button class="nav-item" data-view="knowledge"><span class="nav-symbol">⌕</span> البحث في المراجع</button>
+  <button class="nav-item" data-view="sources"><span class="nav-symbol">▤</span> حالة قاعدة المعرفة</button>
+  <div class="sidebar-spacer"></div>
+  <div class="backend-card"><span class="status-dot" id="backendDot"></span><div><b id="backendTitle">وضع البحث المحلي</b><small id="backendDescription">يحتاج إعداد AI API للمحادثة الذكية</small></div></div>
+  <div class="sidebar-user"><div class="user-avatar">G</div><div><b>GARHI Workspace</b><small>WE Technical Assistant</small></div><span class="brand-watermark">GARHI</span></div>
+</aside>
+<main class="main-area">
+<header class="topbar"><button class="icon-btn menu-btn" id="menuToggle" aria-label="فتح القائمة">☰</button><div class="top-brand"><span class="tiny-mark">G</span><span>GARHI <i>AI</i></span><span class="top-divider">/</span><span class="top-context" id="topContext">المساعد الذكي</span></div><div class="top-actions"><span class="secure-pill"><span></span> مصدر موثّق أولًا</span><button class="icon-btn" id="themeToggle" title="تغيير المظهر" aria-label="تغيير المظهر">◐</button></div></header>
+<section class="view chat-view" id="chatView">
+<div class="welcome-block" id="welcomeBlock"><div class="hero-icon"><span>G</span><i>✦</i></div><div class="eyebrow"><span class="pulse"></span> WE TECHNICAL COPILOT</div><h1>أهلاً بيك في <em>GARHI</em></h1><p class="welcome-copy">اسأل سؤالك بطريقتك. هبحث في المراجع المتاحة وأساعدك توصل للإجراء المناسب، مع توضيح المصدر وحدود التأكد.</p>
+<div class="capability-row"><span>✦ عربي وإنجليزي</span><span>⌕ بحث في المراجع</span><span>▤ مصادر وصفحات</span></div>
+<div class="prompt-grid"><button class="prompt-card" data-prompt="العميل عنده Data Down، أبدأ بإيه؟"><span class="prompt-icon violet">⌁</span><span><b>Data Down</b><small>خطوات التشخيص الموثقة</small></span><span class="prompt-arrow">↗</span></button><button class="prompt-card" data-prompt="إيه مسار الـSR للحالة دي؟"><span class="prompt-icon blue">⌘</span><span><b>مسار SR / Follow-up</b><small>اعثر على مسار الحالة</small></span><span class="prompt-arrow">↗</span></button><button class="prompt-card" data-prompt="إيه الفرق بين BLQ وPhysical Instability؟"><span class="prompt-icon gold">◇</span><span><b>BLQ & Instability</b><small>قارن الحالات والملاحظات</small></span><span class="prompt-arrow">↗</span></button><button class="prompt-card" data-prompt="حل السؤال ده من مراجع التدريب، مع ذكر المصدر."><span class="prompt-icon green">✓</span><span><b>مراجعة Quiz</b><small>الإجابة مع الدليل المتاح</small></span><span class="prompt-arrow">↗</span></button></div></div>
+<div class="chat-feed" id="chatFeed" aria-live="polite"></div>
+<div class="composer-wrap"><form class="composer" id="chatForm"><button type="button" class="attach-button" id="attachButton" aria-label="إرفاق ملف" title="إضافة TXT أو JSON أو CSV أو Markdown">＋</button><textarea id="chatInput" rows="1" placeholder="اكتب سؤالك عن الأعطال أو SR أو SLA..." aria-label="اكتب سؤالك"></textarea><button class="send-button" id="sendButton" type="submit" aria-label="إرسال السؤال"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button><input type="file" id="fileInput" accept=".txt,.json,.csv,.md" hidden></form><div class="composer-meta"><span>GARHI ممكن يخطئ؛ راجع الإجراء الرسمي قبل تنفيذ أي خطوة تشغيلية.</span><span id="modeLabel">بحث محلي</span></div></div>
+</section>
+<section class="view hidden" id="knowledgeView"><div class="page-heading"><div><div class="eyebrow">KNOWLEDGE EXPLORER</div><h1>البحث في المراجع</h1><p>ابحث في السجلات المفهرسة، وافتح التفاصيل والمصادر المتاحة.</p></div></div><div class="search-field"><span>⌕</span><input id="knowledgeSearch" placeholder="اكتب اسم الحالة أو مصطلح من المرجع..."></div><div class="filter-list" id="filters"></div><div class="knowledge-results" id="knowledgeResults"></div></section>
+<section class="view hidden" id="sourcesView"><div class="page-heading"><div><div class="eyebrow">KNOWLEDGE STATUS</div><h1>قاعدة المعرفة</h1><p>اعرف ما هو متاح حاليًا وما يحتاج إلى استكمال أو تحقق.</p></div></div><div class="source-summary"><div class="source-file-icon">PDF</div><div class="source-summary-text"><h2>tech.pdf</h2><p>مرجع تدريبي مصوّر — 80 صفحة بحسب المعلومات المتاحة</p><span class="source-status">فهرس أولي جزئي · ليس استخراجًا كاملًا</span></div></div><div class="status-grid"><article><span class="status-number" id="recordCount">—</span><b>سجلات مفهرسة</b><small>من ملف المعرفة المحلي</small></article><article><span class="status-number">80</span><b>صفحة في المرجع الأصلي</b><small>لا يعني أن كل الصفحات فُهرست</small></article><article><span class="status-number" id="aiStatus">غير متصل</span><b>اتصال الذكاء الاصطناعي</b><small>يتطلب إعداد Backend ومفتاح API</small></article></div><div class="notice-box"><b>شفافية مهمة</b><p>النسخة المرفقة تحتوي على فهرس أولي جزئي. لا تتضمن تفريغًا كاملًا لكل صفحات tech.pdf، ولا تتصل بأنظمة WE الداخلية. مسارات SR والـSLA يجب التحقق منها في المراجع الرسمية الحالية قبل استخدامها تشغيليًا.</p></div><div class="notice-box notice-muted"><b>خصوصية الملفات</b><p>لا ترفع مستندات الشركة أو بيانات العملاء إلى مستودع عام دون تصريح. ملفات TXT وJSON وCSV وMarkdown المضافة من الواجهة تُقرأ محليًا في جلسة المتصفح ولا تُحفظ في قاعدة دائمة.</p></div></section>
+<footer class="app-footer"><span><b>GARHI</b> <i>AI</i> · WE Technical Copilot</span><span>مصدر موثوق أولًا <b>✦</b></span></footer>
+</main></div><div class="toast" id="toast" role="status"></div><script src="app.js"></script>
+</body></html>
