@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#100d24"><meta name="description" content="GARHI — مساعد بحث ذكي لمراجع WE Technical Call Center. بحث موثق حسب صفحات ملفات التدريب.">
+<title>GARHI | WE Technical Copilot</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="watermark" aria-hidden="true">GARHI</div>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-mark"><span>G</span><i></i></div><div><div class="brand-name">GARHI <span>AI</span></div><div class="brand-sub">WE TECHNICAL COPILOT</div></div></div>
+  <button class="new-chat" id="newChat"><span>＋</span> محادثة جديدة</button>
+  <div class="nav-label">مساحة العمل</div>
+  <button class="nav-item active" data-view="assistant"><span class="nav-icon">✧</span> المساعد الذكي</button>
+  <button class="nav-item" data-view="knowledge"><span class="nav-icon">▤</span> قاعدة المعرفة <span class="nav-count" id="kbCount">25</span></button>
+  <button class="nav-item" data-view="cases"><span class="nav-icon">⌘</span> دليل الحالات</button>
+  <button class="nav-item" data-view="sources"><span class="nav-icon">▧</span> المراجع والمصادر</button>
+  <div class="sidebar-bottom"><div class="secure-note"><span class="secure-dot"></span><div><b>وضع البحث المحلي</b><small>لا يوجد اتصال بأنظمة WE الداخلية</small></div></div><div class="user-chip"><div class="avatar">G</div><div><b>GARHI Workspace</b><small>Technical Support Assistant</small></div><span class="more">•••</span></div></div>
+</aside>
+<main class="main">
+<header class="topbar"><button class="mobile-menu" id="menuToggle" aria-label="فتح القائمة">☰</button><div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="pageTitle">المساعد الذكي</strong></div><div class="top-actions"><span class="local-badge"><i></i> Knowledge Base</span><button class="icon-button" id="themeToggle" title="تغيير المظهر">◐</button></div></header>
+<section class="content" id="assistantView">
+  <div class="welcome"><div class="eyebrow"><span class="spark">✦</span> YOUR TECHNICAL WORK COMPANION</div><h1>أهلاً بيك في <em>GARHI</em></h1><p>اسأل عن مسارات SR، حالات الأعطال، إجراءات المتابعة أو أي معلومة في المراجع المضافة. كل نتيجة مرتبطة بصفحات المصدر.</p><div class="quick-stats"><div><b id="statTopics">25</b><span>موضوع قابل للبحث</span></div><i></i><div><b>80</b><span>صفحة في المرجع المرفوع</span></div><i></i><div><b>AR + EN</b><span>بحث عربي وإنجليزي</span></div></div></div>
+  <div class="chat-panel"><div class="chat-top"><div class="bot-avatar">✦</div><div class="chat-title"><b>GARHI Assistant</b><span><i></i> جاهز للبحث في قاعدة المعرفة</span></div><button class="ghost-button" id="clearChat">مسح المحادثة ↺</button></div>
+  <div class="chat-messages" id="chatMessages"><div class="assistant-message"><div class="message-avatar">G</div><div class="message-body"><div class="message-label">GARHI <span>• مساعد المراجع</span></div><div class="bubble">أهلاً بيك 👋<br>اكتب المشكلة أو اسم الـSR أو الـSLA اللي بتدور عليه، وأنا هبحث في المعلومات المفهرسة وأعرض لك النتائج مع رقم الصفحة.<br><br><b>تنبيه:</b> المعلومات المستخرجة من صور التدريب قد تكون تاريخية؛ راجع الإجراء الحالي قبل تنفيذ أي خطوة تشغيلية.</div><div class="message-tools"><span>⌁ بحث موثق</span></div></div></div></div>
+  <div class="suggestions" id="suggestions"><button data-query="Restart Port في حالة التجديد المبكر">Restart Port / التجديد المبكر</button><button data-query="مسار Slowness و suspect outage">Slowness و Suspect Outage</button><button data-query="أرقام تحويل IVR">أرقام تحويل IVR</button><button data-query="Wireless Information و Change Wireless Settings">Wireless Cases</button></div>
+  <form class="composer" id="chatForm"><button class="attach-btn" type="button" id="uploadTrigger" title="إضافة ملف نصي أو JSON">＋</button><input id="chatInput" autocomplete="off" placeholder="اكتب سؤالك هنا... مثال: مسار SR للـ Slowness" aria-label="اكتب سؤالك"><button class="send-btn" type="submit" aria-label="إرسال">➤</button><input type="file" id="fileUpload" accept=".txt,.json,.csv,.md" hidden></form><div class="composer-note">GARHI يبحث في المصادر المفهرسة فقط · لا تُدخل بيانات شخصية للعملاء</div>
+  </div>
+  <div class="bottom-grid"><div class="info-card"><div class="card-icon purple">⌕</div><div><b>بحث بالمصطلحات</b><p>ابحث بالعربي أو بالإنجليزي، حتى لو كتبت جزءًا من اسم الحالة.</p></div></div><div class="info-card"><div class="card-icon blue">▤</div><div><b>مصادر قابلة للتتبع</b><p>كل نتيجة تعرض رقم الصفحة لتراجع المرجع الأصلي بنفسك.</p></div></div><div class="info-card"><div class="card-icon gold">◇</div><div><b>بدون تخمين</b><p>لو المعلومة غير موجودة في الفهرس، هقولك بوضوح.</p></div></div></div>
+</section>
+<section class="content hidden" id="knowledgeView"><div class="section-heading"><div><div class="eyebrow">KNOWLEDGE EXPLORER</div><h1>قاعدة المعرفة</h1><p>تصفّح المواضيع المستخرجة من ملاحظات التدريب.</p></div><div class="search-box"><span>⌕</span><input id="kbSearch" placeholder="ابحث في قاعدة المعرفة..."></div></div><div class="filter-row" id="categoryFilters"></div><div class="knowledge-grid" id="knowledgeGrid"></div></section>
+<section class="content hidden" id="casesView"><div class="section-heading"><div><div class="eyebrow">CASE DIRECTORY</div><h1>دليل الحالات</h1><p>اختار المجال لعرض الحالات والملاحظات المرتبطة به.</p></div></div><div class="case-layout"><div class="case-list" id="caseList"></div><article class="case-detail" id="caseDetail"><div class="empty-icon">⌘</div><h3>اختار حالة من القائمة</h3><p>هتظهر هنا الملاحظات والمراجع المرتبطة بيها.</p></article></div></section>
+<section class="content hidden" id="sourcesView"><div class="section-heading"><div><div class="eyebrow">SOURCE REGISTER</div><h1>المراجع والمصادر</h1><p>حالة الفهرسة وحدود الاعتماد على المرجع.</p></div></div><div class="source-card"><div class="pdf-icon">PDF</div><div class="source-main"><h3>tech.pdf</h3><p>80 صفحة · مرجع مصور لمسارات الحالات وإرشادات التدريب</p><div class="source-tags"><span>صور تدريب</span><span>SR Paths</span><span>Follow-up</span><span>IVR</span></div></div><span class="status-pill">مفهرس جزئيًا</span></div><div class="notice"><b>مهم — شفافية المصدر</b><p>الملف مكوّن من صور ولقطات شاشة. الفهرس الحالي يلخص الموضوعات المقروءة من الصفحات الظاهرة، وليس تفريغ OCR حرفيًا لكل القوائم في جميع الصفحات. لذلك لا تعتبره بديلًا عن فتح المرجع الكامل أو الإجراء الرسمي الحالي.</p></div><div class="source-card"><div class="pdf-icon purple-bg">TXT</div><div class="source-main"><h3>مصادر إضافية</h3><p>يمكن إضافة ملفات TXT أو JSON أو CSV لزيادة المحتوى القابل للبحث في هذه الجلسة.</p><button class="small-primary" id="sourceUpload">إضافة ملف معرفة</button></div></div><div class="notice muted"><b>الخصوصية والنشر</b><p>لا ترفع ملفات التدريب الداخلية أو بيانات العملاء إلى مستودع GitHub عام إلا إذا كنت مخولًا بذلك. هذا المشروع لا يتصل بأنظمة WE الداخلية ولا يقرأ بيانات العملاء.</p></div></section>
+<footer><span>GARHI <b>AI</b> · WE Technical Copilot</span><span>Built for faster reference search <i>✦</i></span></footer>
+</main></div>
+<div class="toast" id="toast"></div><script src="app.js"></script>
+</body></html>
